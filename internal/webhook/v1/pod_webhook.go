@@ -297,7 +297,6 @@ func GetListClusterImagePolicy(image string, namespace string) bool {
 				if item.Object["spec"].(map[string]interface{})["action"] == "Enforce" {
 					if matchImageGlob(glob, image) {
 
-						checkGlob = true
 						if err := VerifyImageSignature(image); err != nil {
 							fmt.Printf(
 								"Image %s không hợp lệ theo ClusterImagePolicy %s (action: %s)\nReason: %v\n",
@@ -318,6 +317,7 @@ func GetListClusterImagePolicy(image string, namespace string) bool {
 							)
 
 						} else {
+							checkGlob = true
 							fmt.Printf("Image %s hợp lệ theo ClusterImagePolicy %s (action: %s)\n", image, item.GetName(), item.Object["spec"].(map[string]interface{})["action"])
 						}
 						break
@@ -333,6 +333,7 @@ func GetListClusterImagePolicy(image string, namespace string) bool {
 							err,
 						),
 					)
+					checkGlob = true
 
 				}
 			}
