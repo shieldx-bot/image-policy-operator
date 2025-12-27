@@ -319,8 +319,9 @@ func GetListClusterImagePolicy(image string, namespace string) bool {
 						} else {
 							checkGlob = true
 							fmt.Printf("Image %s hợp lệ theo ClusterImagePolicy %s (action: %s)\n", image, item.GetName(), item.Object["spec"].(map[string]interface{})["action"])
+							break
 						}
-						break
+
 					}
 				} else {
 					sendTelegramMessage(
