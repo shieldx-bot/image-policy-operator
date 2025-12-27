@@ -1,0 +1,77 @@
+{
+    // Keep gopls, but make it lighter.
+    "go.useLanguageServer": true,
+    // Reduce expensive checks. Turn on later if you want max linting.
+    "gopls": {
+        // staticcheck is great but can be heavy on larger repos.
+        "staticcheck": false,
+        // Disable some costly analyses. (You can re-enable selectively.)
+        "analyses": {
+            "fieldalignment": false,
+            "nilness": false,
+            "unusedwrite": false
+        },
+        // Less background work.
+        "codelenses": {
+            "generate": false,
+            "regenerate_cgo": false,
+            "tidy": false,
+            "upgrade_dependency": false,
+            "vendor": false,
+            "gc_details": false
+        },
+        // If you are not actively using gofumpt, keep default formatter behavior.
+        "gofumpt": false
+    },
+    // Avoid indexing build outputs / generated artifacts / vendored stuff.
+    // (gopls respects this via directory filters.)
+    "gopls.directoryFilters": [
+        "-bin",
+        "-config/crd/bases",
+        "-config/**/bases",
+        "-vendor",
+        "-dist",
+        "-build",
+        "-.git"
+    ],
+    // VS Code file watcher exclusions: reduces CPU wakeups.
+    "files.watcherExclude": {
+        "**/bin/**": true,
+        "**/vendor/**": true,
+        "**/dist/**": true,
+        "**/build/**": true,
+        "**/.git/**": true,
+        "**/config/crd/bases/**": true
+    },
+    // Search exclusions help too.
+    "search.exclude": {
+        "**/bin/**": true,
+        "**/vendor/**": true,
+        "**/dist/**": true,
+        "**/build/**": true,
+        "**/config/crd/bases/**": true
+    },
+    // --- Reduce VS Code (UI + extension churn) ---
+    // Git polling/refresh can be surprisingly expensive in busy repos.
+    "git.autofetch": false,
+    "git.autorefresh": false,
+    // Only detect repos you actually open (reduces background scanning).
+    "git.autoRepositoryDetection": "openEditors",
+    // Avoid background update checks while you're working.
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": false,
+    "update.mode": "manual",
+    // Reduce UI/render overhead a bit (optional but often helps on laptops).
+    "workbench.reduceMotion": "on",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.smoothScrolling": false,
+    // Semantic highlighting can add work; Go semantic tokens are still available via gopls.
+    "editor.semanticHighlighting.enabled": false,
+    // Go extension: avoid running extra work automatically on save.
+    "go.lintOnSave": "off",
+    "go.vetOnSave": "off",
+    "go.buildOnSave": "off",
+    "go.testOnSave": false,
+    // Don't auto-update Go tools in the background.
+    "go.toolsManagement.autoUpdate": false
+}
