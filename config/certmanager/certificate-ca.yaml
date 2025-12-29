@@ -1,0 +1,16 @@
+# This CA certificate is used to sign the webhook/metrics serving certificates.
+# It is generated using the self-signed issuer and then referenced by the CA Issuer.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/name: image-policy-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: ca-cert
+spec:
+  isCA: true
+  commonName: image-policy-operator-ca
+  secretName: ca-cert
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
