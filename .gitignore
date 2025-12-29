@@ -32,3 +32,5 @@ go.work.sum
 # .idea/
 # .vscode/
 config/prometheus/monitor_tls_patch.yaml
+config/samples/cosign-pub-key-secret.yaml
+config/samples/telegram-credentials-secret.yaml
