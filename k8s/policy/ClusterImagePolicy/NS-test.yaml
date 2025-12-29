@@ -1,0 +1,12 @@
+apiVersion: security.shieldx-bot.io/v1
+kind: ClusterImagePolicy
+metadata:
+  name: prod-strict-policy-test
+spec:
+  action: Audit
+  images:
+    - glob: "docker.io/library/nginx:*"
+  publicKeys:
+    - secretRef: cosign-pub-key
+  namespaces:
+    - test
