@@ -1,0 +1,9 @@
+apiVersion: security.shieldx-bot.io/v1
+kind: ClusterImagePolicy
+metadata:
+  name: test-policy
+spec:
+  action: Audit
+  images:
+    - glob: "nginx:*"
+  publicKeys: []
