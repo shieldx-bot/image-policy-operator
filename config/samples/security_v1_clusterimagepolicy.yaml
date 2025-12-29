@@ -1,0 +1,13 @@
+apiVersion: security.shieldx-bot.io/v1
+kind: ClusterImagePolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: image-policy-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: clusterimagepolicy-sample
+spec:
+  action: Audit
+  images:
+    - glob: "*"
+  publicKeys:
+    - secretRef: cosign-pub-key
