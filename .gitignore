@@ -31,3 +31,4 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+config/prometheus/monitor_tls_patch.yaml
