@@ -1,0 +1,39 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: signed-image-webhook
+  annotations:
+    cert-manager.io/inject-ca-from: image-policy-operator-system/signed-image-webhook-cert
+webhooks:
+  - name: image-policy-operator-webhook-service.image-policy-operator-system.local
+    rules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE"]
+        resources: ["pods"]
+    # IMPORTANT: Exclude the namespace that hosts this webhook.
+    # Otherwise, the API server will try to call the webhook to create the webhook's own Pod,
+    # causing a bootstrap deadlock (webhook isn't running yet -> pod creation fails -> webhook never starts).
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values:
+            - image-policy-operator-system
+    clientConfig:
+      service:
+        name: image-policy-operator-webhook-service
+        namespace: image-policy-operator-system
+        path: /validate-v1-pod
+        port: 443
+      # caBundle is injected automatically by cert-manager cainjector.
+      caBundle: ""
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    failurePolicy: Fail
+    # NOTE:
+    # - `timeoutSeconds` is the APIServer->webhook HTTP timeout.
+    # - Our cosign verification can take a few seconds (registry + tlog checks),
+    #   so 5s is sometimes too tight and results in `context deadline exceeded`.
+    timeoutSeconds: 15
+# Ảnh 2: "The Configuration" (Cấu hình Webhook)
