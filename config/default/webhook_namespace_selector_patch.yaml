@@ -1,0 +1,20 @@
+# This patch prevents a bootstrap deadlock:
+# the API server must NOT call the Pod webhook when creating the webhook's own controller-manager Pod.
+#
+# If the webhook is applied to the namespace that hosts the controller-manager, the webhook Service has
+# no ready endpoints yet, so Pod creation fails, and the webhook never becomes ready.
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: placeholder
+webhooks:
+  - name: vpod-v1.kb.io
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values:
+            # base namespace name in config/webhook/manifests.yaml
+            - system
+            # actual namespace used by config/default/kustomization.yaml
+            - image-policy-operator-system
