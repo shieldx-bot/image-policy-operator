@@ -1,0 +1,12 @@
+# Issuer backed by the CA certificate above. Use this issuer for serving certificates
+# so cert-manager can inject a valid CA bundle into webhook configurations.
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  labels:
+    app.kubernetes.io/name: image-policy-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: ca-issuer
+spec:
+  ca:
+    secretName: ca-cert
