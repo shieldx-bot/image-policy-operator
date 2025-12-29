@@ -1,0 +1,12 @@
+apiVersion: security.shieldx-bot.io/v1
+kind: ClusterImagePolicy
+metadata:
+  name: prod-strict-production
+spec:
+  action: Enforce
+  images:
+    - glob: "docker.io/shieldxbot/*"
+  publicKeys:
+    - secretRef: cosign-pub-key
+  namespaces:
+    - production
