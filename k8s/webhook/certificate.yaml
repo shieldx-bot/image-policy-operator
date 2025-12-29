@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: signed-image-webhook-cert
+  namespace: image-policy-operator-system
+spec:
+  secretName: signed-image-webhook-tls
+  dnsNames:
+    - image-policy-operator-webhook-service
+    - image-policy-operator-webhook-service.image-policy-operator-system
+    - image-policy-operator-webhook-service.image-policy-operator-system.svc
+    - image-policy-operator-webhook-service.image-policy-operator-system.svc.cluster.local
+  issuerRef:
+    name: image-policy-operator-selfsigned-issuer
+    kind: Issuer
