@@ -34,3 +34,5 @@ go.work.sum
 config/prometheus/monitor_tls_patch.yaml
 config/samples/cosign-pub-key-secret.yaml
 config/samples/telegram-credentials-secret.yaml
+internal/webhook/v1/cosign.pub
+k8s/policy/addPublicKey.yaml
